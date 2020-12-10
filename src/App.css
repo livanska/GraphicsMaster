@@ -1,7 +1,7 @@
 .App {
   text-align: center;
 }
-
+/*
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,4 +35,24 @@
   to {
     transform: rotate(360deg);
   }
+}*/
+
+.button-primary
+{
+  display: flex;
+flex-direction: row;
+align-items: center;
+padding: 20px 40px;
+
+/*position: absolute;*/
+border: 0px;
+color: white;
+width: 150px;
+height: 58px;
+left: 43px;
+top: calc(50% - 58px/2 - 368px);
+
+/* Accent / Default */
+
+background: #3C64B1;
 }
