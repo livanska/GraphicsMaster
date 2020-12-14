@@ -1,7 +1,11 @@
 import logo from './logo.svg';
-import './App.css';
+import './Style/App.scss';
+import './Style/Button.scss';
+import './Style/Dropdown.scss';
 
-import Fractal from './Fractal';
+import {Route,  BrowserRouter } from 'react-router-dom';
+import Navbar  from './Components/Navbar';
+import Fractal from './Components/Fractal';
 
 
   const container = {
@@ -14,16 +18,14 @@ import Fractal from './Fractal';
   }
 
 function App() {
-  return (
+  return (  
     <div className="App">
-  
+        
 
-
-
- 
-
-
-    <Fractal />   
+  <BrowserRouter>
+    <Navbar />
+    <Route path="/fractal_drawer" component={Fractal} />
+  </BrowserRouter>
    
     </div>
   );

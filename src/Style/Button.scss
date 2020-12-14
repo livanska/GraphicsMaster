@@ -1,0 +1,30 @@
+@import "variables";
+
+
+
+.button-primary {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 20px 40px;
+	font-family: Mulish;
+	font-weight: 600;
+	letter-spacing: 1.5px;
+	font-size: 14px;
+	border: 0px;
+	color: white;
+	width: 150px;
+	height: 58px;
+	left: 43px;
+	top: calc(50% - 58px/2 - 368px);
+  background-color: $primary;
+  cursor:pointer;
+	&:active {
+		background: $primary;
+		border: 0px;
+		box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+	}
+	&:focus {
+		outline: 0;
+	}
+}

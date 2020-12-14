@@ -1,0 +1,73 @@
+@import "variables";
+
+
+.navbar 
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    background-color: $tertiary;
+    height: 100px;
+    width: 100%;
+}
+
+.navbar-logo
+{
+    display: inline-block;
+    padding-right: 30px;
+    padding-left: 30px;
+    height: 85%;
+}
+
+.navbar-center-group
+{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-left: 300px;
+    margin-right: 300px;
+    height: 100px;
+}
+.navbar-link 
+{
+    padding-top: 40px;
+    padding-bottom:  40px;
+    display: inline-block;
+    margin: 5px;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-top: 40px;
+    padding-bottom:  40px;
+	cursor: pointer;
+	text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    font-family: Mulish;
+    font-weight: 500;
+    color: #181818;
+    height: 100%;
+    &:hover
+    {
+        border-bottom: 3px solid;
+        border-color: $primary;
+    }
+}
+.navbar-link-active 
+{
+    padding-right: 30px;
+    padding-left: 30px;
+    transition: border-bottom .5s ease-in-out;
+    padding-top: 40.5px;
+    padding-bottom:  40.5px;
+    margin-top: 0;
+    margin-bottom: 0;
+    word-wrap: none;
+    word-break: keep-all;
+    -ms-word-break: keep-all;
+    -ms-word-wrap: inherit;
+    background-color: $secondary;
+    height: 100%;
+    &:hover{
+        border-bottom: 0px transparent;
+    }
+}

@@ -1,6 +1,7 @@
 import React from 'react';
-import {Complex,moduleComplex,sinComplex,cosComplex,multiplyComplex, addComplex} from './Complex.js';
+import {Complex,moduleComplex,sinComplex,cosComplex,multiplyComplex, addComplex} from '../Helpers/Complex.js';
 import Dropdown from './Dropdown';
+
 const options = [
     { key: Array(128,0,0), text: 'Maroon' },
     { key: Array(0,73,24), text: 'Smaragd' },
@@ -26,11 +27,11 @@ class Fractal extends React.Component
             MAX_ITERATION : 100,    
             REAL_SET : { start: -3, end:4},
             IMAGINARY_SET :{ start: -1, end:1 },
-           colors:[] //:new Array(16).fill(0).map((_, i) => i === 0 ? '#000' : `#${((1 << 24) * Math.random() | 0).toString(16)}`)
-        }
+           colors:[] 
+           }
         this.draw = this.draw.bind(this)
         this.clean = this.clean.bind(this);
-       this.handleClick = this.handleClick.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     handleChange = e => 
@@ -47,17 +48,9 @@ class Fractal extends React.Component
     }
 
     handleClick(event) {
-       // let res = this.menu.value;
-       //this.state.colorPal =  event.target.value;
-       //this.setState({reload: ""})
-       //var ctx = this.refs.canvas.getContext('2d')
-      // ctx.clearRect(0, 0, this.state.WIDTH, this.state.HEIGHT);
-      this.setState({colorPal: event.value })
+        this.setState({colorPal: event.value })
         this.setColors()
-        //console.log("This is: "+this.state)
-        //console.log("Colors:  "+this.state.colors);
         this.draw()
-        //event.preventDefault();
     }
 
     func(c) 
@@ -71,9 +64,6 @@ class Fractal extends React.Component
             z = (addComplex(c,multZ))
             module = moduleComplex(z);
             iterationNumber += 1
-          //  console.log("z: "+z.real+" "+z.imaginary)
-           // console.log("prevZ: "+prevZ.real+" "+prevZ.imaginary)
-           // console.log("module: "+module)
             prevZ = z
         } while (module <= 16 && iterationNumber < this.state.MAX_ITERATION)
         return [iterationNumber, Math.abs(module)<= 16,z]
@@ -128,17 +118,9 @@ class Fractal extends React.Component
     draw() 
     {
         this.clean()
-  
-        //let ColorCount = 0;
         var ctx = this.refs.canvas.getContext('2d')
-        //ctx.clearRect(0, 0, this.state.WIDTH, this.state.HEIGHT);
-        //ctx.clearRect(0, 0, this.state.WIDTH, this.state.HEIGHT);
-        //ctx.beginPath();
         ctx.fillStyle = "rgba(0, 0, 0, 0)";
         ctx.fillRect(0, 0, this.state.WIDTH, this.state.HEIGHT);
-        //ctx.beginPath();
-       // ctx.clearRect(0, 0, this.state.WIDTH, this.state.HEIGHT);
-       //let complex = new Complex(-0.75,0)
         for (let i = 0; i <this.state.WIDTH; i++) 
         {
             for (let j = 0; j < this.state.HEIGHT; j++) 
@@ -151,26 +133,15 @@ class Fractal extends React.Component
                  this.state.IMAGINARY_SET.start + (j / this.state.HEIGHT) * (this.state.IMAGINARY_SET.end - this.state.IMAGINARY_SET.start))   
                     
                 const [iterations, isFunc] = this.func(complex)
-                //complex.setComplex()
-     
                 ctx.fillStyle = this.state.colors[isFunc ? 0 : (iterations % this.state.colors.length - 1) ]
-
                 ctx.fillRect(i, j, 1, 1)
-                //break
             }
-           // break
         }
-        
-        ctx.closePath()    
-             // a = Math.sin(a) * Math.cos(a) * (Math.pow(Math.sinh(b), 2) + Math.pow(Math.cosh(b), 2)) + a;
-             // b = Math.sinh(b) * Math.cosh(b) * (Math.pow(Math.cos(a), 2) - Math.pow(Math.sin(a), 2)) + b;
-        
-        
+            ctx.closePath()        
     }
     clean()
     {
         var ctx = this.refs.canvas.getContext('2d')
-        //ctx.clearRect(0, 0, 1000, 400);
         ctx.fillStyle = '#FFFFFF'
         ctx.fillRect(0, 0, 1000, 400);
     }
@@ -186,10 +157,10 @@ class Fractal extends React.Component
                 type="text"
                 ref={myinput => (this.input = myinput)} />
                 <div>
-                <Dropdown options={options}  onChange={this.handleChange} />
+                <Dropdown className ="dropdown" options={options}  onChange={this.handleChange} />
                 </div>
             </label>
-            <button className="button-primary" onClick = {this.handleClick}>dvfdrvgfedrf</button>
+            <button className="button-primary" onClick = {this.handleClick}>Start</button>
             <button onClick = {this.clean}>clean</button>
         </div>)   
     }
