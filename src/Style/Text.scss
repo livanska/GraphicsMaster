@@ -1,0 +1,20 @@
+@import "variables";
+
+.plain-text
+{
+    font-family: Mulish;
+    font-size: 48;
+    font-weight: 500;
+    color: $main-text;
+    letter-spacing: 0.3px;
+    line-height: 39.5px;
+}
+.header-text
+{
+    font-family: Mulish;
+    font-size: 64;
+    font-weight: 700;
+    color: $header-text;
+    letter-spacing: 0.1px;
+    line-height: 40px;
+}

@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './Style/App.scss';
 import './Style/Button.scss';
 import './Style/Dropdown.scss';
@@ -20,12 +19,17 @@ import Fractal from './Components/Fractal';
 function App() {
   return (  
     <div className="App">
-        
+      
 
   <BrowserRouter>
     <Navbar />
     <Route path="/fractal_drawer" component={Fractal} />
   </BrowserRouter>
+
+
+
+
+  
    
     </div>
   );

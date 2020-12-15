@@ -1,37 +1,99 @@
 @import "variables";
-
-.select {
-	width: 377px;
-	height: 35px;
-	left: 419px;
-	top: 520px;
-    padding:9px;
-    margin: 0;
-	border-radius:4px;
-	box-shadow: $header-text;
-    -webkit-box-shadow: $primary
- 
-		   0 0px 0 #ccc,
-        0 0px #fff inset;
-		-webkit-appearance: menulist-button;
-		height: 50px;
-	  
-    border:none;
-    outline:none;
-    display: inline-block;
   
-    cursor:pointer;
-	border: 1px solid #ccc;
-	
-}
-.option {
-	position: relative;
-	display: block;
-	padding: 0 22px 0 22px;
-	font-size: 16px;
-	font-weight: 300;
-	color: #3b3b3b;
-	line-height: 100px;
-	cursor: pointer;
-	transition: all 0.5s;
-}
+  .custom-select-container {
+    display: inline-block;
+    min-width: 378px;
+    text-align: left;
+    position: relative;
+    background-color: $tertiary;
+    line-height: 35px;
+    
+  }
+
+  .custom-select-container-text
+  {
+    padding-left: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    height: 35px;
+    line-height: 35px;
+    padding-right: 10px;
+    color: $main-text;
+    
+  }
+
+  .selected-text {
+    background-color: $tertiary;
+    color: $main-text;
+    font-size: 14;
+    padding-right: 10px;
+    position: relative;
+    float: right;
+    line-height: 35px;
+    letter-spacing: 0.2px;
+    padding-top: 8px;
+    font-family: Mulish;
+  
+    cursor: pointer;
+  }
+  
+  .selected-text::after {
+    content: "";
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 43px;
+    height: 41px;
+    border: 10px solid ;
+    transform: rotate(180deg);
+    border-radius: 5px;
+    left: calc(50% - 43px/2 + 209px);
+    top: calc(50% - 41px/2 + 41.5px);
+    border-color: $primary transparent transparent;
+    font-weight: 500;
+ 
+  }
+
+  .selected-text.active 
+  {
+    top: 8px;
+    padding-left: 10px;
+    transform: rotate(180deg);
+    border-color: transparent transparent $primary transparent;
+    font-weight: 500;
+  
+  }
+  
+  ul {
+    margin: 0;
+    padding: 0;
+    z-index:100;
+  }
+  
+  .select-options {
+    position: absolute;
+    width: 100%;
+  }
+  
+  li {
+    list-style-type: none;
+    padding: 6px 20px;
+    background:$secondary;
+    color: $main-text;
+    font-family: Mulish;
+    font-size: 14;
+    line-height: 35px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+  }
+  
+  li:hover {
+    background-color: $tertiary;
+    color: $main-text;
+    font-size: 14;
+    font-weight: 500;
+    line-height: 35px;
+    letter-spacing: 0.2px;
+    font-family: Mulish;
+  }

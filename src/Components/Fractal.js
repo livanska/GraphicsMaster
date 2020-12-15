@@ -1,8 +1,12 @@
 import React from 'react';
 import {Complex,moduleComplex,sinComplex,cosComplex,multiplyComplex, addComplex} from '../Helpers/Complex.js';
-import Dropdown from './Dropdown';
+import "../Style/Text.scss"
+import "../Style/Grids.scss"
+import "../Style/Dropdown.scss"
+import Dropdown from "./Dropdown";
 
-const options = [
+
+const colorOptions = [
     { key: Array(128,0,0), text: 'Maroon' },
     { key: Array(0,73,24), text: 'Smaragd' },
     { key: Array(90,0,45), text: 'Wine' },
@@ -10,46 +14,66 @@ const options = [
     { key: Array(58,37,0), text: 'Chocolate' },
     { key: Array(28,28,28), text: 'Charcoal' }]
 
+const zoomOptions = [
+        { key: 1, text: '100% (standart)' },
+        { key: 1.2, text: '80%' },
+        { key: 1.4, text: '60%' },
+        { key: 1.6, text: '40%' },
+        { key: 1.8, text: '20%' }]
    /* Maroon 128, 0, 0
     Smaragd 0,73,24
     Wine 90,0,45
     Denim 0,0,70
     Chocolate 58,37,0
     Charcoal 28,28,28*/
-class Fractal extends React.Component
+    class Fractal extends React.Component
 {
     constructor(props) {
         super(props);
         this.state = {
             colorPal : "128,0,0",
-            WIDTH : 1000,
-            HEIGHT : 400,
+            WIDTH : 880,
+            HEIGHT : 545,
             MAX_ITERATION : 100,    
-            REAL_SET : { start: -3, end:4},
+            REAL_SET : { start: -3, end:1},
             IMAGINARY_SET :{ start: -1, end:1 },
-           colors:[] 
+            colors:[], 
+            zoom : 1
            }
         this.draw = this.draw.bind(this)
         this.clean = this.clean.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handleColorChange= this.handleColorChange.bind(this);
+        this.handleZoomChange= this.handleZoomChange.bind(this);
     }
 
-    handleChange = e => 
-    {
-        console.log(e.target.value)
-        this.setState({colorPal: e.target.value }, () => 
+
+    handleColorChange = e => 
+    { 
+        this.setState({colorPal: e}, () => 
         {
             if (this.props.onChange) 
             {
                 this.props.onChange(this.state);
             }
         })
-      //console.log(this.state.colorPal)
     }
 
-    handleClick(event) {
-        this.setState({colorPal: event.value })
+    handleZoomChange = e => 
+    {
+        this.setState({zoom: Number(e)}, () => 
+        {
+            if (this.props.onChange) 
+            {
+                this.props.onChange(this.state);
+            }
+        })
+    }
+
+    handleClick() 
+    {
         this.setColors()
+        this.setZoom()
         this.draw()
     }
 
@@ -104,6 +128,16 @@ class Fractal extends React.Component
         else this.state.colors = prevColors
 
     }
+    setZoom()
+    {
+        let defaultSet = [-2.7,1,-1,1]
+        this.state.IMAGINARY_SET.start = Number((defaultSet[2] * this.state.zoom).toPrecision(4))
+        this.state.IMAGINARY_SET.end = defaultSet[3] * this.state.zoom
+        this.state.REAL_SET.start = defaultSet[0]  * this.state.zoom
+        this.state.REAL_SET.end = defaultSet[1] * this.state.zoom
+        console.log(this.state.IMAGINARY_SET)
+        console.log(this.state.REAL_SET)
+    }
     componentToHex(c)
     {
         var hex = c.toString(16);
@@ -143,26 +177,45 @@ class Fractal extends React.Component
     {
         var ctx = this.refs.canvas.getContext('2d')
         ctx.fillStyle = '#FFFFFF'
-        ctx.fillRect(0, 0, 1000, 400);
+        ctx.fillRect(0, 0, 880, 545);
     }
 
     render() 
     {
         return(
-        <div>
-            <canvas ref="canvas" height ="400" width= "600"></canvas>
-            <label>
-                <input
-                name="colorPal"
-                type="text"
-                ref={myinput => (this.input = myinput)} />
-                <div>
-                <Dropdown className ="dropdown" options={options}  onChange={this.handleChange} />
+        <div className = "page-content">
+            <div className ="content-column fractal-canvas">
+                <canvas ref="canvas" height ="545" width= "880"></canvas>
+            </div>
+      
+            <div>
+                <div className = "content-column fractal-information">
+                    <h1 style ={{"font-size":"48px"}} className ="header-text">Fractal Drawer</h1>
+                    <label style ={{"font-size":"24px"}} className = "plain-text">Fractal:  y = z·(sin z)</label>
+                    <div  className =  "choose-information">
+                        <p style ={{"font-size":"24px"}} className = "plain-text">Choose color schema and scaling value:</p>
+                        <div >   
+                            <div  className ="content-input">
+                            <Dropdown
+                            defaultText={"Color schema"}
+                            optionsList={colorOptions}
+                            onClick={this.handleColorChange}/>
+                            </div>
+                            <div className ="content-input">
+                            <Dropdown
+                            defaultText={"Scaling value"}
+                            optionsList={zoomOptions}
+                            onClick={this.handleZoomChange}/>
+                            </div>
+                        </div>
+                        <button className= "content-button button-primary " onClick = {this.handleClick}>Start</button>
+                        
+                    </div>
                 </div>
-            </label>
-            <button className="button-primary" onClick = {this.handleClick}>Start</button>
-            <button onClick = {this.clean}>clean</button>
-        </div>)   
+
+            </div>
+        </div>
+        )   
     }
    
 }

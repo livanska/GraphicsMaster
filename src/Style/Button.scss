@@ -3,9 +3,11 @@
 
 
 .button-primary {
-	display: flex;
+	//display: flex;
 	flex-direction: row;
-	align-items: center;
+    align-items: center;
+    text-align: center;
+    
 	padding: 20px 40px;
 	font-family: Mulish;
 	font-weight: 600;
@@ -17,7 +19,7 @@
 	height: 58px;
 	left: 43px;
 	top: calc(50% - 58px/2 - 368px);
-  background-color: $primary;
+    background-color: $primary;
   cursor:pointer;
 	&:active {
 		background: $primary;
