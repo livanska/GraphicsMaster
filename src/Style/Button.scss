@@ -30,3 +30,36 @@
 		outline: 0;
 	}
 }
+
+  .inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.inputfile + label {
+	font-family: Mulish;
+	font-weight: 600;
+	letter-spacing: 1.5px;
+	font-size: 14px;
+	padding-top: 20px;
+	color: white;
+	background-color: $primary;
+	width: 150px;
+	height: 38px;
+	
+    display: inline-block;
+}
+.inputfile:focus + label,
+.inputfile + label:hover {
+	box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.inputfile:focus + label,
+.inputfile + label:active {
+	box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}

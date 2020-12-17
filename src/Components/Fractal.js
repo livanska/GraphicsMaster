@@ -1,10 +1,11 @@
 import React from 'react';
 import {Complex,moduleComplex,sinComplex,cosComplex,multiplyComplex, addComplex} from '../Helpers/Complex.js';
+import ColorConvertor from '../Helpers/ColorConvertor.js';
 import "../Style/Text.scss"
 import "../Style/Grids.scss"
 import "../Style/Dropdown.scss"
-import Dropdown from "./Dropdown";
-
+import Dropdown from "./Dropdown"
+import "../Style/Button.scss"
 
 const colorOptions = [
     { key: Array(128,0,0), text: 'Maroon' },
@@ -26,6 +27,7 @@ const zoomOptions = [
     Denim 0,0,70
     Chocolate 58,37,0
     Charcoal 28,28,28*/
+    
     class Fractal extends React.Component
 {
     constructor(props) {
@@ -38,13 +40,18 @@ const zoomOptions = [
             REAL_SET : { start: -3, end:1},
             IMAGINARY_SET :{ start: -1, end:1 },
             colors:[], 
-            zoom : 1
+            zoom : 1,
+            link:"",
+            wantDownload: false
            }
         this.draw = this.draw.bind(this)
         this.clean = this.clean.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleColorChange= this.handleColorChange.bind(this);
         this.handleZoomChange= this.handleZoomChange.bind(this);
+
+        
+        //this.downloadImg = this.downloadImg.bind(this)
     }
 
 
@@ -57,6 +64,7 @@ const zoomOptions = [
                 this.props.onChange(this.state);
             }
         })
+        this.setColors()
     }
 
     handleZoomChange = e => 
@@ -68,13 +76,15 @@ const zoomOptions = [
                 this.props.onChange(this.state);
             }
         })
+        this.setZoom()
+        
     }
 
     handleClick() 
     {
-        this.setColors()
+       this.setColors()
         this.setZoom()
-        this.draw()
+       this.draw()
     }
 
     func(c) 
@@ -93,20 +103,11 @@ const zoomOptions = [
         return [iterationNumber, Math.abs(module)<= 16,z]
     }
    
-    /*getRandomColor() 
-    {
-        var letters = '0123456789ABCDEF';
-        var color = '#';
-        for (var i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }*/
-
     setColors()
     {
         let str = []
         let color = []
+        let CC = new ColorConvertor()
         let prevColors = this.state.colors;
         if(this.state.colorPal != undefined)
         {  
@@ -121,13 +122,14 @@ const zoomOptions = [
             {   
                 newcolor.push(Number((Number(color[j]) + ((255 - Number(color[j])) * 0.1)).toFixed(0)))
             }
-            this.state.colors.push(this.rgbToHex(newcolor))
+            this.state.colors.push(CC.rgbToHex(newcolor))
             color = newcolor;
             }  
         }
         else this.state.colors = prevColors
 
     }
+   
     setZoom()
     {
         let defaultSet = [-2.7,1,-1,1]
@@ -138,21 +140,13 @@ const zoomOptions = [
         console.log(this.state.IMAGINARY_SET)
         console.log(this.state.REAL_SET)
     }
-    componentToHex(c)
-    {
-        var hex = c.toString(16);
-        return hex.length == 1 ? "0" + hex : hex;
-    }
-    rgbToHex(color) 
-    {
-        console.log(color)
-        return "#" + this.componentToHex(color[0]) + this.componentToHex(color[1]) + this.componentToHex(color[2]);
-    }
 
     draw() 
     {
+
         this.clean()
         var ctx = this.refs.canvas.getContext('2d')
+        
         ctx.fillStyle = "rgba(0, 0, 0, 0)";
         ctx.fillRect(0, 0, this.state.WIDTH, this.state.HEIGHT);
         for (let i = 0; i <this.state.WIDTH; i++) 
@@ -171,7 +165,9 @@ const zoomOptions = [
                 ctx.fillRect(i, j, 1, 1)
             }
         }
-            ctx.closePath()        
+        ctx.closePath()    
+ 
+           
     }
     clean()
     {
@@ -184,16 +180,17 @@ const zoomOptions = [
     {
         return(
         <div className = "page-content">
-            <div className ="content-column fractal-canvas">
+            <div className ="content-column fractal-canvas" >
+           
                 <canvas ref="canvas" height ="545" width= "880"></canvas>
             </div>
       
             <div>
                 <div className = "content-column fractal-information">
-                    <h1 style ={{"font-size":"48px"}} className ="header-text">Fractal Drawer</h1>
-                    <label style ={{"font-size":"24px"}} className = "plain-text">Fractal:  y = z·(sin z)</label>
+                    <h1 style ={{"fontSize":"48px"}} className ="header-text">Fractal Drawer</h1>
+                    <label style ={{"fontSize":"24px"}} className = "plain-text">Fractal:  y = z·(sin z)</label>
                     <div  className =  "choose-information">
-                        <p style ={{"font-size":"24px"}} className = "plain-text">Choose color schema and scaling value:</p>
+                        <p style ={{"fontSize":"24px"}} className = "plain-text">Choose color schema and scaling value:</p>
                         <div >   
                             <div  className ="content-input">
                             <Dropdown
@@ -208,8 +205,7 @@ const zoomOptions = [
                             onClick={this.handleZoomChange}/>
                             </div>
                         </div>
-                        <button className= "content-button button-primary " onClick = {this.handleClick}>Start</button>
-                        
+                        <button className= "content-button button-primary " onClick = {this.handleClick}>Draw</button>
                     </div>
                 </div>
 
