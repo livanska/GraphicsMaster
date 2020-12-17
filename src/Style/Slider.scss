@@ -9,7 +9,7 @@ input[type=range].scaling {
     outline: none;
   }
   input[type=range].scaling::-webkit-slider-runnable-track {
-    background: #0071a9;
+    background: $primary;
     border: 0;
     border-radius: 20.4px;
     width: 100%;
@@ -55,7 +55,7 @@ input[type=range].scaling {
     cursor: pointer;
   }
   input[type=range].scaling::-ms-fill-lower {
-    background: #006090;
+    background:$primary;
     border: 0;
     border-radius: 40.8px;
   }
@@ -87,5 +87,21 @@ input[type=range].scaling {
       margin: 0;
   
     }
+  }
+  .slider-values
+  {
+    display: flex;
+    justify-content: center;
+    margin-top: -20px;
+    font-family: Mulish;
+    font-size: 20;
+    font-weight: 500;
+    color: $main-text;
+    
+  }
+  .slider-value
+  {
+
+     margin-right: 390px;
   }
  

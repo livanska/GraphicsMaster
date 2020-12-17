@@ -4,7 +4,6 @@ import ImageLoader from "./ImageLoader"
 import "../Style/Slider.scss"
 import "../Style/Text.scss"
 import "../Style/Grids.scss"
-import "../Style/Dropdown.scss"
 import "../Style/Button.scss"
 import ColorConvertor from '../Helpers/ColorConvertor.js';
 import Icon from '../Resources/Images/Original-icon.svg'
@@ -45,6 +44,7 @@ class ColorModel extends React.Component {
   
 }
 onChangeSaturLevel = data => {
+  this.setState({saturLevel:data.target.value })
    this.convert(data.target.value)
 };
 
@@ -200,7 +200,7 @@ drawImageScaled(img, ctx)
 
   render() {
   
-    const { value,hsl,cmyk } = this.state;
+    const { value,hsl,cmyk ,saturLevel} = this.state;
     return (
       
       <div className = "page-content">
@@ -209,24 +209,43 @@ drawImageScaled(img, ctx)
           <div className ="conteiner-row">
             <canvas ref="canvas" className ="original-canvas"   onMouseMove={this._onMouseMove.bind(this)} height ="545" width= "880"></canvas>
             <canvas  ref="canvas2"className ="original-canvas" style={{display:"none"}} height ="545" width= "880"></canvas>
+            <button className ="original-button" onMouseEnter = {this.handleMouseOriginal} onMouseLeave= {this.handleMouseNoOriginal}> <img className="navbar-logo" src={Icon} /></button>
+            <div className ="color-values">
+              <p className= "color-value">HSL [{ hsl.h};{hsl.s};{hsl.l}] </p>
+              <p className= "color-value">CMYK [{cmyk.c};{cmyk.m};{cmyk.y};{cmyk.k }]</p>
+           </div>
           </div>
         </div>
         <div className = "content-column color-information">
           <div className = "color-inputs">
+            <h1 style ={{"fontSize":"48px"}} className ="header-text">Color Model</h1>
+            <label style ={{"fontSize":"24px"}} className = "plain-text">Color model:</label>
+            <div  className =  "choose-information">
+             </div > 
           <div className="tooltip">
-            <input className="scaling" name="model" type="radio" checked="true" id="HSL" onChange={this.onChangeModel} ></input>
-            <label htmlFor="HSL">HSL</label><br></br>
-            <input className="scaling" name="model" type="radio" id="CMYK" onChange={this.onChangeModel} ></input>
-            <label htmlFor="CMYK">CMYK</label><br></br>
-            <input className="scaling" type="range" onChange={this.onChangeSaturLevel} ></input>
-          </div>
-            <ImageLoader value={value} onChangeValue={this.onChangeValueHandler} />
-       
-            <button onMouseEnter = {this.handleMouseOriginal} onMouseLeave= {this.handleMouseNoOriginal}> <img className="navbar-logo" src={Icon} /></button>
-            <button  onClick ={this.handleDownloadClick}>Download</button>
+            <div class="form-radio" >
+            
+                <input className="radio-button" name="model" type="radio"  id="HSL" onChange={this.onChangeModel} ></input>
+                <label htmlFor="HSL">HSL</label>
+        
+                <input className="radio-button" name="model" type="radio" id="CMYK" onChange={this.onChangeModel} ></input>
+                <label htmlFor="CMYK">CMYK</label><br></br>
+
+              </div>
+            <div className = "content-button " >
+              <label style ={{"fontSize":"24px",}} className = "plain-text">Yellow color saturation: {saturLevel}</label>
+              <input className="scaling" type="range" onChange={this.onChangeSaturLevel} ></input>
+              <div className ="slider-values">
+                <p  className ="slider-value">0</p><p>100</p></div>
             </div>
-           <h1>HSL [{ hsl.h};{hsl.s};{hsl.l}] </h1><h1>CMYK [{cmyk.c};{cmyk.m};{cmyk.y};{cmyk.k }]</h1><br/>
+          </div>
+          <div className ="button-group">
+            <ImageLoader  value={value} onChangeValue={this.onChangeValueHandler} />
+            <button className= "loader-margins content-button button-primary " onClick ={this.handleDownloadClick}>Download</button>
+          </div>
         </div>
+
+      </div>
     
       </div>
     );

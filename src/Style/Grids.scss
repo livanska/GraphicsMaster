@@ -42,9 +42,7 @@
 }
 
 .original-canvas
-{
-
-        
+{   
     position: absolute;
     top: 70;
     left: 200;
@@ -59,9 +57,29 @@
 }
 .color-information
 {
-   
+   margin-top: 30px;
     align-content: center;
     align-items: center;
     text-align: center;
     padding-left: 50%;
+}
+.color-values
+{
+    position: absolute;
+    left:85px;
+    top:670px;
+    background-color: rgba(255, 255,255, 0.5);
+    text-align: left;
+    
+}
+.button-group{
+    padding-left: 40px;
+    align-content: center;
+    align-items: center;
+    display: flex;
+    margin-top: 30px;
+}
+.loader-margins
+{
+    margin-left: 15px;
 }
