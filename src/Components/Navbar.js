@@ -4,8 +4,8 @@ import '../Style/Navbar.scss';
 import Logo from '../Resources/Images/Logo.svg'
 
 const Navbar = () => (
-  <nav className="navbar">
-    
+  <nav className="navbar" id="navbar">
+
       <img className="navbar-logo" src={Logo} />
  
     <div className ="navbar-center-group" >

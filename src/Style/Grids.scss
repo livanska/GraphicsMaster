@@ -1,8 +1,9 @@
+@import "variables";
 .page-content
 {
     display: flex;
     width: 100%;
-    margin-top: 7%;
+    margin-top: 6%;
 
 }
 .content-column
@@ -17,9 +18,9 @@
 }
 .fractal-information
 {
-    padding-left: 5%;
+    
     width: 100%;
-   // margin-left: 5%;
+    margin-left: -5%;
     margin-right: 5%;
     padding-top: 5%;
     align-content: center;
@@ -66,14 +67,14 @@
 .color-values
 {
     position: absolute;
-    left:85px;
-    top:670px;
+    left:75px;
+    top:680px;
     background-color: rgba(255, 255,255, 0.5);
     text-align: left;
     
 }
 .button-group{
-    padding-left: 40px;
+    padding-left: 55px;
     align-content: center;
     align-items: center;
     display: flex;
@@ -81,5 +82,61 @@
 }
 .loader-margins
 {
-    margin-left: 15px;
+     margin-left: 10px;
+}
+.home-background{
+    background-color: $secondary;
+    position: relative;
+    height: 845px;
+    margin: 0;
+}
+.home-bottom-text
+{
+    position: absolute;
+    left:150px;
+    top:85px;
+
+}
+.home-logo
+{
+    padding-left: 20px;
+    margin-top: -95px;
+    height: 380px;
+    height: 380px;
+}
+
+.home-columns
+{
+    margin-top: 30px;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+}
+.home-column
+{
+ 
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    display: inline;
+    margin-left: 40px;
+    margin-right: 40px;
+    width: 360px;
+}
+.home-column-icon
+{
+    height: 70px;
+    width:  80px;
+}
+.home-help-conteiner
+{
+    margin-top: 30px;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    vertical-align:middle;
+    margin-bottom: 30px;
 }

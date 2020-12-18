@@ -239,22 +239,51 @@ export default class ColorCovertor
         computedM = 1 - (g/255);
         computedY = 1 - (b/255);
        
-        var minCMY = Math.min(computedC,
-                     Math.min(computedM,computedY));
-        computedC = Math.round((computedC - minCMY) / (1 - minCMY) * 100) ;
-        computedM = Math.round((computedM - minCMY) / (1 - minCMY) * 100) ;
-        computedY = Math.round((computedY - minCMY) / (1 - minCMY) * 100 );
-        computedK = Math.round(minCMY * 100);
+        var minCMY = Math.min(computedC,Math.min(computedM,computedY));
+        computedC = parseInt(((computedC - minCMY) / (1 - minCMY) )*100) ;
+        computedM =  parseInt(((computedM - minCMY) / (1 - minCMY))*100  );
+        computedY =  parseInt(((computedY - minCMY) / (1 - minCMY))*100)  ;
+        computedK =  parseInt(minCMY*100) ;
        
         return [ computedC,computedM,computedY,computedK]
     }
+
+    rgb2cmyk = function(rgb)
+    {
+        let r =  parseInt(rgb[0])
+        let g = parseInt(rgb[1])
+        let b = parseInt(rgb[2])
+        var c = 1 - (r / 255);
+        var m = 1 - (g / 255);
+        var y = 1 - (b / 255);
+        var k = Math.min(c, Math.min(m, y));
+        
+        c = (c - k) / (1 - k);
+        m = (m - k) / (1 - k);
+        y = (y - k) / (1 - k);
+        
+ 
+            c = Math.round(c * 100);
+            m = Math.round(m * 100) ;
+            y = Math.round(y * 100) ;
+            k = Math.round(k * 100) ;
+        
+        
+        c = isNaN(c) ? 0 : c;
+        m = isNaN(m) ? 0 : m;
+        y = isNaN(y) ? 0 : y;
+        k = isNaN(k) ? 0 : k;
+        
+        return [c,m,y,k]
+    }
+
 
     rgbToCmyk(arr)
     {
         let cmykArr =[]
         for (var i = 0; i < arr.length; i++) 
         {
-            cmykArr.push( this.elementRgbToCmyk(arr[i]))
+            cmykArr.push( this.rgb2cmyk(arr[i]))
         }
         return cmykArr
     }
@@ -271,9 +300,9 @@ export default class ColorCovertor
 		let g = 1 - Math.min( 1, m * ( 1 - k ) + k );
 		let b = 1 - Math.min( 1, y * ( 1 - k ) + k );
  
-		r = Math.round( r * 255 );
-		g = Math.round( g * 255 );
-		b = Math.round( b * 255 );
+		r = Math.floor( r * 255 );
+		g = Math.floor( g * 255 );
+		b = Math.floor( b * 255 );
  
 		return [r,g,b]
     }

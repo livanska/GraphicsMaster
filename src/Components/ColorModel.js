@@ -7,13 +7,12 @@ import "../Style/Grids.scss"
 import "../Style/Button.scss"
 import ColorConvertor from '../Helpers/ColorConvertor.js';
 import Icon from '../Resources/Images/Original-icon.svg'
+import Navbar  from './Navbar';
 
 var original = true;
-
+var model ="CMYK"
 class ColorModel extends React.Component {
-  state = {
-    value: ''
-  }
+ 
   constructor(props) {
     super(props);
     this.state = {
@@ -43,6 +42,8 @@ class ColorModel extends React.Component {
   
   
 }
+
+
 onChangeSaturLevel = data => {
   this.setState({saturLevel:data.target.value })
    this.convert(data.target.value)
@@ -51,6 +52,7 @@ onChangeSaturLevel = data => {
 onChangeModel = data => {
   this.setState({model:data.target.id})
   console.log(this.state.model)
+  model = this.state.model
  
 }
 
@@ -73,21 +75,25 @@ convert(satur)
 
   let startRgb=(CC.dataToRgb(imageData.data))
   let endRgb=[]
-
+/*
   if(this.state.model =="HSL") 
   {  
     let startHsl = CC.rgbToHsl(startRgb)
-    
     let modifiedHsl = CC.changeSaturationHsl(startHsl,satur)
-  
     endRgb  = CC.hslToRgb(modifiedHsl)
   }
   else
-  {
+  {*/
     let startCmyk = CC.rgbToCmyk(startRgb)
-    let modifiedCmyk = CC.changeSaturationCmyk(startCmyk,satur)
+   let modifiedCmyk = CC.changeSaturationCmyk(startCmyk,satur)
     endRgb = CC.cmykToRgb(modifiedCmyk)
- }
+
+
+    
+
+
+
+ // }
 
   var newImageData= ctx.createImageData(880,545);
 
@@ -136,13 +142,12 @@ drawImageScaled(img, ctx)
     reader.onload = function(event)
     {
       var img = new Image;
- 
       img.onload = function() 
       {
         var canvas = ctx.canvas ;
         var hRatio = canvas.width  / img.width    ;
         var vRatio =  canvas.height / img.height  ;
-        var ratio  = Math.min ( hRatio, vRatio );
+        var ratio  = Math.max ( hRatio, vRatio );
         var centerShift_x = ( canvas.width - img.width*ratio ) / 2;
         var centerShift_y = ( canvas.height - img.height*ratio ) / 2;  
         ctx.clearRect(0,0,canvas.width, canvas.height);
@@ -152,7 +157,7 @@ drawImageScaled(img, ctx)
         canvas = ctx2.canvas ;
         hRatio = canvas.width  / img.width    ;
         vRatio =  canvas.height / img.height  ;
-        ratio  = Math.min ( hRatio, vRatio );
+        ratio  = Math.max ( hRatio, vRatio );
         centerShift_x = ( canvas.width - img.width*ratio ) / 2;
         centerShift_y = ( canvas.height - img.height*ratio ) / 2;  
         ctx2.clearRect(0,0,canvas.width, canvas.height);
@@ -173,9 +178,9 @@ drawImageScaled(img, ctx)
 
   downloadImage()
   {
-    const imageDataUrl= this.refs.canvas.toDataURL({pixelRatio: 2})
+    const imageDataUrl= this.refs.canvas.toDataURL({})
     var link = document.createElement('a')
-    link.download= `Image_${Date.now()}.png`
+    link.download= `Image_${Date.now()}.jpeg`
     link.href = imageDataUrl
     document.body.appendChild(link)
     link.click()
@@ -202,7 +207,8 @@ drawImageScaled(img, ctx)
   
     const { value,hsl,cmyk ,saturLevel} = this.state;
     return (
-      
+      <div>
+      <Navbar id="navbar"/>
       <div className = "page-content">
     
         <div className ="content-column color-canvas" >
@@ -210,9 +216,8 @@ drawImageScaled(img, ctx)
             <canvas ref="canvas" className ="original-canvas"   onMouseMove={this._onMouseMove.bind(this)} height ="545" width= "880"></canvas>
             <canvas  ref="canvas2"className ="original-canvas" style={{display:"none"}} height ="545" width= "880"></canvas>
             <button className ="original-button" onMouseEnter = {this.handleMouseOriginal} onMouseLeave= {this.handleMouseNoOriginal}> <img className="navbar-logo" src={Icon} /></button>
-            <div className ="color-values">
-              <p className= "color-value">HSL [{ hsl.h};{hsl.s};{hsl.l}] </p>
-              <p className= "color-value">CMYK [{cmyk.c};{cmyk.m};{cmyk.y};{cmyk.k }]</p>
+            <div className ="color-values " style ={{"paddingLeft":"5px"}}>
+             {model != "HSL" ? <p  className= "color-value">HSL [{ hsl.h};{hsl.s};{hsl.l}] </p> :  <p className= "color-value">CMYK [{cmyk.c};{cmyk.m};{cmyk.y};{cmyk.k }]</p>}
            </div>
           </div>
         </div>
@@ -236,7 +241,7 @@ drawImageScaled(img, ctx)
               <label style ={{"fontSize":"24px",}} className = "plain-text">Yellow color saturation: {saturLevel}</label>
               <input className="scaling" type="range" onChange={this.onChangeSaturLevel} ></input>
               <div className ="slider-values">
-                <p  className ="slider-value">0</p><p>100</p></div>
+                <p className ="slider-value">0</p><p>100</p></div>
             </div>
           </div>
           <div className ="button-group">
@@ -246,7 +251,7 @@ drawImageScaled(img, ctx)
         </div>
 
       </div>
-    
+      </div>
       </div>
     );
   }

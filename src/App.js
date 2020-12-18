@@ -1,40 +1,19 @@
 import './Style/App.scss';
-import './Style/Button.scss';
-import './Style/Dropdown.scss';
+import React from "react"
 
-import {Route,  BrowserRouter } from 'react-router-dom';
-import Navbar  from './Components/Navbar';
-import Fractal from './Components/Fractal';
-import ColorModel from './Components/ColorModel';
+import Routes from "./Components/Routes"
+import Home from './Components/Home';
 
 
-  const container = {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100vw',
-    height: '100vh',
-    justifyContent: 'center',
-    alignItems: 'center'
+  const App = () => 
+  {
+    return (
+      <div>
+        <Routes /> 
+      </div>
+    );
   }
-
-function App() {
-  return (  
-    <div className="App">
-      
-
-  <BrowserRouter>
-    <Navbar />
-    <Route path="/fractal_drawer" component={Fractal} />
-    <Route path="/color_model" component={ColorModel} />
-  </BrowserRouter>
-
-
-
-
   
-   
-    </div>
-  );
-}
+
 
 export default App;

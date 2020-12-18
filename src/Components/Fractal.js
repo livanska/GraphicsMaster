@@ -6,6 +6,7 @@ import "../Style/Grids.scss"
 import "../Style/Dropdown.scss"
 import Dropdown from "./Dropdown"
 import "../Style/Button.scss"
+import Navbar  from './Navbar';
 
 const colorOptions = [
     { key: Array(128,0,0), text: 'Maroon' },
@@ -54,7 +55,7 @@ const zoomOptions = [
         //this.downloadImg = this.downloadImg.bind(this)
     }
 
-
+  
     handleColorChange = e => 
     { 
         this.setState({colorPal: e}, () => 
@@ -179,7 +180,10 @@ const zoomOptions = [
     render() 
     {
         return(
+            <div>
+            <Navbar id="navbar"/>
         <div className = "page-content">
+          
             <div className ="content-column fractal-canvas" >
            
                 <canvas ref="canvas" height ="545" width= "880"></canvas>
@@ -210,6 +214,7 @@ const zoomOptions = [
                 </div>
 
             </div>
+        </div>
         </div>
         )   
     }

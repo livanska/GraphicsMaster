@@ -27,5 +27,68 @@
     letter-spacing: 0.3px;
     line-height: 15px;
     padding-left: 5px;
+    padding-right: 5px;
     
+}
+.home-header
+{
+    height: 200px;
+    position: absolute;
+    top:-2550px;
+    left: 430px;
+
+    font-family: Mulish;
+    font-size: 144;
+    font-weight: 700;
+    color: $header-text;
+    letter-spacing: 11.7px;
+    line-height: 53.5;
+}
+.home-quote{
+    font-family: Mulish ;
+    //font-style: italic;
+    font-size: 24;
+    color: $header-text;
+    font-weight: 700;
+    text-align: right;
+    text-transform: uppercase;
+    word-break: normal;
+    width: 600px;
+    line-height: 35px;
+    margin-left: 650px;
+    margin-top: -10px;
+     
+}
+.quote-autor
+{
+    margin-top: 10px;
+    margin-left: 600px;
+}
+.home-column-header{
+    margin-top: -1px;
+    font-family: Mulish ;
+    //font-style: italic;
+    font-size: 24;
+    color: $header-text;
+    font-weight: 800;
+}
+.home-column-info
+{
+    margin-top: -5px;
+    font-family: Mulish ;
+    //font-style: italic;
+    font-size: 24;
+    color: $main-text;
+    font-weight: 400;
+}
+
+.home-column-link
+{
+    margin-top: -5px;
+    font-family: Mulish ;
+    //font-style: italic;
+    font-size: 24;
+    color: $primary;
+    font-weight: 800;
+    text-decoration: none;
 }
