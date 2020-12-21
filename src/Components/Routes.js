@@ -5,7 +5,9 @@ import {withRouter} from 'react-router-dom';
 import Navbar  from './Navbar';
 import Fractal from './Fractal';
 import ColorModel from  './ColorModel';
+import ShapeMover from  './ShapeMover';
 import Home from './Home';
+import Help from './Help';
 
 class Routes extends React.Component{
     render()
@@ -21,9 +23,9 @@ class Routes extends React.Component{
 
                 <Route path="/color_model" component={ColorModel} />
 
-                <Route path="/shape_mover" component={ColorModel} />
+                <Route path="/shape_mover" component={ShapeMover} />
 
-                <Route path="/help"  />
+                <Route path="/help"  component={Help} />
       
             </BrowserRouter>
             </div>
