@@ -229,11 +229,7 @@ export default class ColorCovertor
        let r =  parseInt(rgb[0])
        let g = parseInt(rgb[1])
        let b = parseInt(rgb[2])
-        // BLACK
-        if (r==0 && g==0 && b==0) {
-         computedK = 1;
-         return [0,0,0,1];
-        }
+
        
         computedC = 1 - (r/255);
         computedM = 1 - (g/255);
@@ -253,6 +249,7 @@ export default class ColorCovertor
         let r =  parseInt(rgb[0])
         let g = parseInt(rgb[1])
         let b = parseInt(rgb[2])
+    
         var c = 1 - (r / 255);
         var m = 1 - (g / 255);
         var y = 1 - (b / 255);
@@ -283,7 +280,7 @@ export default class ColorCovertor
         let cmykArr =[]
         for (var i = 0; i < arr.length; i++) 
         {
-            cmykArr.push( this.rgb2cmyk(arr[i]))
+            cmykArr.push( this.elementRgbToCmyk(arr[i]))
         }
         return cmykArr
     }

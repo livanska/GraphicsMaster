@@ -1,9 +1,20 @@
 import React from "react";
 import Navbar  from './Navbar';
 import MatrixTransformations from '../Helpers/MatrixTransformations.js';
+import Triangle from '../Helpers/Triangle.js';
+import "../Style/Dropdown.scss"
+import Dropdown from "./Dropdown"
+import "../Style/Button.scss"
+import "../Style/Text.scss"
+import "../Style/Grids.scss"
 
 var HEIGTH = 540
 var WIDTH = 880
+const zoomOptions = [
+    { key: 1, text: '1x (standart)' },
+    { key: 2, text: '2x' },
+    { key: 3, text: '3x' },
+    { key: 4, text: '4x' }]
 
 class ShapeMover extends React.Component {
     constructor(props) 
@@ -11,7 +22,7 @@ class ShapeMover extends React.Component {
         super(props);
         this.state = {
         value: '',
-     
+        zoom : 1,
         Ax:'',
         Ay:'',
           
@@ -19,8 +30,8 @@ class ShapeMover extends React.Component {
         By:'',
             
         Cx:'',
-        Cy:''
-           
+        Cy:'',
+         error:false  
       
           }
          
@@ -35,6 +46,7 @@ class ShapeMover extends React.Component {
          
           this.CxInputValue = this.CxInputValue.bind(this)
           this.CyInputValue = this.CyInputValue.bind(this)
+          this.handleZoomChange= this.handleZoomChange.bind(this);
       }
  
     drawGrid () 
@@ -73,6 +85,7 @@ class ShapeMover extends React.Component {
         ctx.lineTo(newCoordStart[0] ,HEIGTH)
         ctx.stroke()
 
+        
         let counter = -(WIDTH/2)/10
         for (var i = 0; i <= WIDTH ; i += 10) 
         {
@@ -82,7 +95,7 @@ class ShapeMover extends React.Component {
             {   if(counter==0)
                 {
                     ctx.font = "7px ";
-                    ctx.fillText(counter, i,  newCoordStart[1]+10);
+                    ctx.fillText(counter, i+2,  newCoordStart[1]+10);
                     counter+=4
                     
                 }
@@ -128,7 +141,9 @@ class ShapeMover extends React.Component {
         ctx.beginPath()
 
     }
-    componentDidMount() {
+
+    componentDidMount() 
+    {
         this.drawGrid()
     }
     
@@ -140,123 +155,147 @@ class ShapeMover extends React.Component {
         ctx.closePath()
         this.drawGrid()
 
+        let triangle  = new Triangle([[this.state.Ax, this.state.Ay],
+                                      [this.state.Bx, this.state.By],
+                                      [this.state.Cx, this.state.Cy]])
+        triangle.zooming(10,10);
 
-        //starting triangle drawing
-        let Adot = new MatrixTransformations([this.state.Ax, this.state.Ay])
-        let Bdot = new MatrixTransformations([this.state.Bx, this.state.By])
-        let Cdot = new MatrixTransformations([this.state.Cx, this.state.Cy])
+        if(!triangle.isValid())
+        {
+            this.setState({error : true})
+            ctx.beginPath()
+            ctx.clearRect(0, 0, WIDTH, HEIGTH);
+            ctx.closePath()
+            this.drawGrid() 
+            console.log(this.state.error)
+        }
+        else
+        {
+            triangle.move(WIDTH/2,HEIGTH/2)
+            triangle.transformOverX()
+            triangle.move(0,HEIGTH)
 
-        Adot.move(WIDTH/2,HEIGTH/2)
-        Bdot.move(WIDTH/2,HEIGTH/2)
-        Cdot.move(WIDTH/2,HEIGTH/2)
+            ctx.beginPath();
+            ctx.strokeStyle = '#373F41'
+            ctx.moveTo(triangle.A[0], triangle.A[1]); 
 
-        Adot.transformOverX()
-        Bdot.transformOverX()
-        Cdot.transformOverX()
+            ctx.lineTo(triangle.C[0],triangle.C[1]); //A->C
+            ctx.stroke()
 
-        Adot.move(0,HEIGTH)
-        Bdot.move(0,HEIGTH)
-        Cdot.move(0,HEIGTH)
+            ctx.lineTo(triangle.B[0],triangle.B[1]); //C->B
+            ctx.stroke()
 
-       ctx.beginPath();
-        ctx.strokeStyle = '#373F41'
-        ctx.moveTo(Adot.dot[0], Adot.dot[1]); 
+            ctx.lineTo(triangle.A[0],triangle.A[1]) //B->A
+            ctx.stroke()
+            ctx.closePath();
 
-        ctx.lineTo(Cdot.dot[0],Cdot.dot[1]); //A->C
-        ctx.stroke()
+            //Y=X triangle drawing 
+            let transfTriangle  = new Triangle([[this.state.Ax, this.state.Ay],
+                                                [this.state.Bx, this.state.By],
+                                                [this.state.Cx, this.state.Cy]])
 
-        ctx.lineTo(Bdot.dot[0], Bdot.dot[1]); //C->B
-        ctx.stroke()
+            transfTriangle.zooming(10,10);
+            transfTriangle.transform();
 
-        ctx.lineTo(Adot.dot[0],Adot.dot[1]) //B->A
-        ctx.stroke()
-        ctx.closePath();
+            transfTriangle.zooming(this.state.zoom,this.state.zoom);
+    
+            transfTriangle.move(WIDTH/2,HEIGTH/2)
+            transfTriangle.transformOverX()
+            transfTriangle.move(0,HEIGTH)
 
+            ctx.beginPath();
+            ctx.strokeStyle = '#3C64B1'
+            ctx.moveTo(transfTriangle.A[0], transfTriangle.A[1]); 
 
-    //Y=X triangle drawing 
-     Adot = new MatrixTransformations([this.state.Ax, this.state.Ay])
-     Bdot = new MatrixTransformations([this.state.Bx, this.state.By])
-     Cdot = new MatrixTransformations([this.state.Cx, this.state.Cy])
+            ctx.lineTo(transfTriangle.C[0],transfTriangle.C[1]); //A->C
+            ctx.stroke()
 
-     Adot.transform()
-     Bdot.transform()
-     Cdot.transform()
+            ctx.lineTo(transfTriangle.B[0],transfTriangle.B[1]); //C->B
+            ctx.stroke()
 
-     Adot.move(WIDTH/2,HEIGTH/2)
-     Bdot.move(WIDTH/2,HEIGTH/2)
-     Cdot.move(WIDTH/2,HEIGTH/2)
-
-     Adot.transformOverX()
-     Bdot.transformOverX()
-     Cdot.transformOverX()
-
-    Adot.move(0,HEIGTH)
-    Bdot.move(0,HEIGTH)
-    Cdot.move(0,HEIGTH)
-
-
-
-       ctx.beginPath();
-        ctx.strokeStyle = '#3C64B1'
-        ctx.moveTo(Adot.dot[0], Adot.dot[1]); 
-
-        ctx.lineTo(Cdot.dot[0],  Cdot.dot[1]); //A->C
-        ctx.stroke()
-
-        ctx.lineTo(Bdot.dot[0], Bdot.dot[1]); //C->B
-        ctx.stroke()
-
-        ctx.lineTo(Adot.dot[0],  Adot.dot[1]) //B->A
-        ctx.stroke()
-        ctx.closePath();
+            ctx.lineTo(transfTriangle.A[0],transfTriangle.A[1]) //B->A
+            ctx.stroke()
+            ctx.closePath();
+            this.setState({error : false})
+        }
     }
 
     AxInputValue(evt) 
     {
-        this.setState({Ax:   evt.target.value*10});
+        
+        this.setState({Ax:   evt.target.value});
     }
     AyInputValue(evt) 
     {
-        this.setState({Ay:  evt.target.value*10});
+       
+        this.setState({Ay:  evt.target.value});
     }
     BxInputValue(evt) 
     {
-        this.setState({Bx: evt.target.value*10});
+        
+        this.setState({Bx: evt.target.value});
     }
     ByInputValue(evt) 
     {
-        this.setState({By: evt.target.value*10});
+       
+        this.setState({By: evt.target.value});
     }
     CxInputValue(evt) 
     {
-        this.setState({Cx: evt.target.value*10});
+        
+        this.setState({Cx: evt.target.value});
     }
     CyInputValue(evt) 
     {
-        this.setState({Cy: evt.target.value*10});
+       
+        this.setState({Cy: evt.target.value});
+    }
+    handleZoomChange(e)
+    {
+       
+        this.setState({zoom: Number(e)})        
     }
     render()
     {
+       var{ error } = this.state
         return(
             <div>
                  <Navbar id="navbar"/>
-            <div className ="content-column fractal-canvas" >
-           
-                <canvas ref="canvas" height ="545" width= "880"></canvas>
+                <div className = "page-content">
+                    <div className ="content-column fractal-canvas" >
+                        <canvas ref="canvas" height ="545" width= "880"></canvas>
+                    </div>
+                    <div className = "content-column shape-information">
+                        <h1 style ={{"fontSize":"48px"}} className ="header-text">Shape Mover</h1>
+                        <label style ={{"fontSize":"24px"}} className = "plain-text">Triangle moving on the trajectory y = x, with  scaling according to the coefficient.</label>
+                       
+                        <p style ={{"fontSize":"24px","marginBottom":"0px","marginTop":"5px"}} className = {error? "error-text": "plain-text"}>{error? " You can't build triange with such vertices!" : "Triangle vertices:"} </p>
+                        <label style ={{"fontSize":"24px"}} className = "plain-text">A:</label>
+                        <input className= {error? "coodinate-input-erorr":"coodinate-input"} placeholder="x" onChange={this.AxInputValue}/>
+                        <input className= {error? "coodinate-input-erorr":"coodinate-input"} placeholder="y" onChange={this.AyInputValue}/>
+                       
+                        <label style ={{"fontSize":"24px","marginLeft":"30px"}} className = "plain-text">B:</label>
+                        <input className= {error? "coodinate-input-erorr":"coodinate-input"} placeholder="x" onChange={this.BxInputValue}/>
+                        <input className= {error? "coodinate-input-erorr":"coodinate-input"}placeholder="y" onChange={this.ByInputValue}/>
+                        
+                        <label style ={{"fontSize":"24px","marginLeft":"30px"}} className = "plain-text">C:</label>
+                        <input className= {error? "coodinate-input-erorr":"coodinate-input"} placeholder="x" onChange={this.CxInputValue}/>
+                        <input className= {error? "coodinate-input-erorr":"coodinate-input"} placeholder="y" onChange={this.CyInputValue}/>
+                        <div  className ="content-input">
+                        <p style ={{"fontSize":"24px","marginBottom":"0px","marginTop":"5px"}} className = "plain-text">Choose scaling value:</p>
+                            <Dropdown
+                            defaultText={"Scaling value"}
+                            optionsList={zoomOptions}
+                            onClick={this.handleZoomChange}/>
+                        </div>
+                        <button className = "content-button button-primary" onClick={this.draw}>Draw</button>
+                    </div>
+                </div> 
             </div>
-            <input  onChange={this.AxInputValue}/>
-            <input  onChange={this.AyInputValue}/>
-            <br></br>
-            <input  onChange={this.BxInputValue}/>
-            <input  onChange={this.ByInputValue}/>
-            <br></br>
-            <input  onChange={this.CxInputValue}/>
-            <input  onChange={this.CyInputValue}/>
-
-            <button onClick={this.draw}>DRAW</button>
-            </div> )
+            )
     }
 }
+
 export default ShapeMover
 
 

@@ -1,11 +1,12 @@
+
 export default class MatrixTransformations{
+    
     
     dot;
     constructor(dot)
     {
         this.dot = dot;
     }
-   
     move(dx,dy)
     {
         //matrix addition
@@ -35,10 +36,19 @@ export default class MatrixTransformations{
     {
         //matrix multiplication
         let reflMatr = [1,0,   //[x]
-                        0,-1]   //[y]
+                        0,-1]  //[y]
 
         this.dot[0]=this.dot[0]*reflMatr[0]+ this.dot[1]*reflMatr[1]
         this.dot[1]=this.dot[0]*reflMatr[2]+ this.dot[1]*reflMatr[3]
+        return this.dot
+    }
+
+    zooming(dx,dy)
+    {
+        let zoomMatr = [dx,0,
+                        0,dy]
+        this.dot[0]=this.dot[0]*zoomMatr[0]
+        this.dot[1]=this.dot[1]*zoomMatr[3]
         return this.dot
     }
 

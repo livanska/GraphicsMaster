@@ -9,6 +9,14 @@
     letter-spacing: 0.3px;
     line-height: 39.5px;
 }
+.error-text{
+    font-family: Mulish;
+    font-size: 48;
+    font-weight: 500;
+    color: $error-text;
+    letter-spacing: 0.3px;
+    line-height: 39.5px;
+}
 .header-text
 {
     font-family: Mulish;
@@ -91,4 +99,59 @@
     color: $primary;
     font-weight: 800;
     text-decoration: none;
+}
+.coodinate-input
+{
+    width: 45px;
+    height: 42px;
+    margin-left: 2px;
+    margin-left: 2px;
+    margin-bottom: 2px;
+    font-family: Mulish;
+    color: $main-text;
+    font-size: 24px;
+    background-color: $tertiary;
+    border: 0px;
+    text-align: center;
+    &:focus{
+        outline-width: 0px;
+    }
+}
+.coodinate-input-erorr
+{
+    width: 45px;
+    height: 42px;
+    margin-left: 2px;
+    margin-left: 2px;
+    margin-bottom: 2px;
+    font-family: Mulish;
+    color: $main-text;
+    font-size: 24px;
+    background-color: $incorrect-input;
+    border: 0px;
+    text-align: center;
+    &:focus{
+        outline-width: 0px;
+    }
+}
+.tag-text
+{
+    text-transform: uppercase;
+    font-family: Mulish;
+    font-weight: 800;
+    color: $primary;
+    font-size: 22px;
+    letter-spacing: 0.4px;
+    line-height: 25px;
+}
+.help-text
+{
+    
+    font-family: Mulish;
+    font-size: 16px;
+    font-weight: 500;
+    color: $header-text;
+    letter-spacing: 0.3px;
+    line-height: 25px;
+    
 }

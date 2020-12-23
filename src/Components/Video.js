@@ -6,10 +6,11 @@ function Video ()
     <div
     className="video"
     style={{
+      width:"782px",
+      height:"426px",
       position: "relative",
       //paddingBottom: "56.25%" /* 16:9 */,
-      paddingTop: 25,
-      height: 0
+      paddingTop: 0,
     }}
   >
     <iframe
@@ -17,10 +18,10 @@ function Video ()
         position: "absolute",
         top: 0,
         left: 0,
-       // width: "100%",
-       // height: "100%"
+        width:"782px",
+        height:"426px",
       }}
-      src={`https://www.youtube.com/embed/nn42RC1zT_A`}
+      src={`https://www.youtube.com/embed/dNGd6bhCdSw`}
      // https://youtu.be/nn42RC1zT_A
       frameBorder="0"
     />
